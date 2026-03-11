@@ -109,5 +109,7 @@ You also have an option to view each user to get see their complete raw profile 
 
 The following video is an example of what this app should look like when run locally after successfully implementing SSO and Directory Sync.
 
+[Watch here](https://www.youtube.com/watch?v=57pBt-J6_0w)
+
 # Credits & Resources
 This application is built upon the foundation of the [official WorkOS Python Example Applications.](https://github.com/workos/python-flask-example-applications?tab=readme-ov-file) It specifically extends the [SSO](https://github.com/workos/python-flask-example-applications/tree/main/python-flask-sso-example) and [Directory Sync](https://github.com/workos/python-flask-example-applications/tree/main/python-flask-directory-sync-example) examples into a single application.
