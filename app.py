@@ -24,7 +24,7 @@ workos_client = workos.WorkOSClient(
 
 # Enter Organization ID here
 
-CUSTOMER_ORGANIZATION_ID = "org_01KK5JPWGTT021NFDY7ZX1HQH4"  # Use org_test_idp for testing
+CUSTOMER_ORGANIZATION_ID = "org_test_idp"  # Use org_test_idp for testing
 
 
 def to_pretty_json(value):
@@ -95,56 +95,28 @@ def logout():
 
 @app.route("/directory")
 def directory():
-    try:
-        # 1. Fetch directories linked to your Organization ID
-        directories = workos_client.directory_sync.list_directories(
-            organization_id=CUSTOMER_ORGANIZATION_ID
-        )
 
-        if not directories.data:
-            return "No directory found for this organization. Please check your Okta SCIM setup.", 404
+    directories = workos_client.directory_sync.list_directories(
+        organization_id=CUSTOMER_ORGANIZATION_ID
+    )
 
-        # 2. Get the first directory (the one you set up with Okta)
-        active_directory = directories.data[0]
+    if not directories.data:
+        return "No directory found for this organization. Please check your Okta SCIM setup.", 404
 
-        # 3. Render the template with the specific variables it expects:
-        # 'directory' must be a dictionary for the |tojson_pretty filter
-        # 'id' is used for the Users/Groups buttons
-        return render_template(
-            "directory.html", 
-            directory=active_directory.dict(), # Convert object to dict for JSON printing
-            id=active_directory.id
-        )
-        
-    except Exception as e:
-        # This will help you see the exact error in your terminal if it fails
-        print(f"Directory Route Error: {e}")
-        return f"An error occurred: {e}", 500
+    active_directory = directories.data[0]
+
+    return render_template(
+        "directory.html", 
+        directory=active_directory.dict(),
+        id=active_directory.id
+    )
+
 
 @app.route("/users")
 def directory_users():
     directory_id = request.args.get("id")
-    
-    if not directory_id:
-        return "No directory ID provided", 400
-        
-    try:
-        # 1. Fetch users using the required keyword 'directory_id'
-        users_resource = workos_client.directory_sync.list_users(directory_id=directory_id)
-        
-        # 2. Convert the entire resource to a dictionary.
-        # This creates the {'data': [...], 'list_metadata': {...}} structure 
-        # that your HTML template specifically looks for.
-        users_dict = users_resource.dict()
-        
-        # 3. Debug check: print this to your terminal to confirm data exists
-        print(f"Found {len(users_dict['data'])} users for directory {directory_id}")
-
-        return render_template("users.html", users=users_dict)
-
-    except Exception as e:
-        print(f"Users Route Error: {e}")
-        return f"Internal Error: {e}", 500
+    users = workos_client.directory_sync.list_users(directory_id=directory_id, limit=100)
+    return render_template("users.html", users=users)
 
 
 @app.route("/user")
