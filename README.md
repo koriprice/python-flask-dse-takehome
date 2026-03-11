@@ -19,14 +19,14 @@ This is an example Flask application demonstrating how to use the [WorkOS Python
    
    ```bash
    # HTTPS
-   $ git clone https://github.com/workos/python-flask-example-applications.git
+   $ git clone https://github.com/koriprice/python-flask-dse-takehome.git
    ```
 
    or
 
    ```bash
    # SSH
-   $ git clone git@github.com:workos/python-flask-example-applications.git
+   $ git clone git@github.com:koriprice/python-flask-dse-takehome.git
    ```
 
 2. Create and a Python virtual environment:
