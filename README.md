@@ -29,7 +29,7 @@ This is an example Flask application demonstrating how to use the [WorkOS Python
    $ git clone git@github.com:koriprice/python-flask-dse-takehome.git
    ```
 
-2. Create and a Python virtual environment:
+2. Create a Python virtual environment:
 
    ```bash
    $ python3 -m venv env
